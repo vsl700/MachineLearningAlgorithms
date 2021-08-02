@@ -3,7 +3,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
 
 
-def print_regression():
+def print_regression_data():
     print('------------------------------------------------------')
 
     r_sq = model.score(x_, y)
@@ -23,7 +23,7 @@ print(x_)
 model = LinearRegression()
 model.fit(x_, y)
 
-print_regression()
+print_regression_data()
 
 
 x_ = PolynomialFeatures(degree=2, include_bias=True).fit_transform(x)
@@ -32,4 +32,7 @@ print(x_)
 model = LinearRegression(fit_intercept=False)
 model.fit(x_, y)
 
-print_regression()
+print_regression_data()
+
+y_pred = model.predict(x_)
+print("Predicted response:", y_pred, sep='\n')
