@@ -14,6 +14,11 @@ def print_regression_data():
     print('------------------------------------------------------\n')
 
 
+def print_prediction():
+    y_pred = model.predict(x_)
+    print("Predicted response:", y_pred, '\n', sep='\n')
+
+
 x = np.array([5, 15, 25, 35, 45, 55]).reshape(-1, 1)  # The input needs to be a two-dimensional array!
 y = np.array([15, 11, 2, 8, 25, 32])
 
@@ -25,6 +30,8 @@ model.fit(x_, y)
 
 print_regression_data()
 
+print_prediction()
+
 
 x_ = PolynomialFeatures(degree=2, include_bias=True).fit_transform(x)
 print(x_)
@@ -34,5 +41,4 @@ model.fit(x_, y)
 
 print_regression_data()
 
-y_pred = model.predict(x_)
-print("Predicted response:", y_pred, sep='\n')
+print_prediction()
