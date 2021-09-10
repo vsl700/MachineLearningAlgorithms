@@ -21,7 +21,8 @@ def get_data():
 
     abalone = abalone.drop("Sex", axis=1)
 
-    print(abalone.head(15), "\n")
+    print(abalone.head(15))
+    print("Rows:", len(abalone["Rings"]))  # 4177
 
     # abalone["Rings"].hist(bins=15)
     # plt.show()
