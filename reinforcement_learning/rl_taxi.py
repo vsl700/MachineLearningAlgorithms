@@ -91,7 +91,6 @@ def EvaluateRLAgent(q_table):
 
 def SolveWithRL():
     import random
-    from IPython.display import clear_output
     q_table = np.zeros([env.observation_space.n, env.action_space.n])
 
     # Hyperparameters
