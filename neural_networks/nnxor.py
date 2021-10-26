@@ -2,6 +2,7 @@ import numpy as np
 
 # keras cannot be install when there's matplotlib installed! Same for the opposite situation!
 # You should execute this file in a different environment (mlEnv or nnxor)!
+# UPDATE!!! It is now completely possible to install matplotlib and keras in one place!
 from keras.models import Sequential
 from keras.layers.core import Dense, Activation
 from keras.optimizers import SGD
