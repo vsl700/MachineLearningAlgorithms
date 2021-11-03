@@ -12,6 +12,9 @@ from keras.layers import Conv2D, MaxPooling2D
 from keras.layers.normalization import BatchNormalization
 from keras.layers.advanced_activations import LeakyReLU
 
+from sklearn.metrics import classification_report
+
+
 (train_X, train_Y), (test_X, test_Y) = fashion_mnist.load_data()
 
 print('Training data shape:', train_X.shape, train_Y.shape)
@@ -35,7 +38,7 @@ plt.subplot(122)
 plt.imshow(test_X[0, :, :], cmap='gray')
 plt.title("Ground Truth : {}".format(test_Y[0]))
 
-# plt.show()
+plt.show()
 
 
 # Data reshaping (preprocessing)
@@ -110,15 +113,44 @@ except IOError:
     plt.plot(epochs, val_accuracy, 'b', label='Validation accuracy')
     plt.title('Training and validation accuracy')
     plt.legend()
-    plt.figure()
+    # plt.figure()
     plt.plot(epochs, loss, 'bo', label='Training loss')
     plt.plot(epochs, val_loss, 'b', label='Validation loss')
     plt.title('Training and validation loss')
     plt.legend()
     plt.show()
 
+# Evaluate model
 test_eval = fashion_model.evaluate(test_X, test_Y_one_hot, verbose=1)
 print('Test loss:', test_eval[0])
 print('Test accuracy:', test_eval[1])
 
+# Predict labels
+predicted_classes = fashion_model.predict(test_X)
+predicted_classes = np.argmax(np.round(predicted_classes), axis=1)
+print(predicted_classes.shape, ', ', test_Y.shape, sep='')
 
+correct = np.where(predicted_classes == test_Y)[0]
+print("Found %d correct labels" % len(correct))  # 9196
+# plt.figure()
+for i, correct in enumerate(correct[:9]):
+    plt.subplot(3, 3, i + 1)
+    plt.imshow(test_X[correct].reshape(28, 28), cmap='gray', interpolation='none')
+    plt.title("Predicted {}, Class {}".format(predicted_classes[correct], test_Y[correct]))
+    plt.tight_layout()
+
+incorrect = np.where(predicted_classes != test_Y)[0]
+print("Found %d incorrect labels" % len(incorrect))  # 804
+plt.figure()
+for i, incorrect in enumerate(incorrect[:9]):
+    plt.subplot(3, 3, i + 1)
+    plt.imshow(test_X[incorrect].reshape(28, 28), cmap='gray', interpolation='none')
+    plt.title("Predicted {}, Class {}".format(predicted_classes[incorrect], test_Y[incorrect]))
+    plt.tight_layout()
+
+plt.show()
+
+# Classification report
+target_names = ["Class {}".format(i) for i in range(num_classes)]
+print('\n')
+print(classification_report(test_Y, predicted_classes, target_names=target_names))
